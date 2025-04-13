@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Will You Marry This Person?</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #fff0f5;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 6vw;
+    }
+
+    #photo {
+      width: 50vw;
+      max-width: 200px;
+      border-radius: 50%;
+      margin: 20px 0;
+      border: 5px solid #ff69b4;
+    }
+
+    #box {
+      position: relative;
+      display: inline-block;
+    }
+
+    button {
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 4vw;
+      max-width: 120px;
+      width: 40vw;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .yes {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .no {
+      background-color: #f44336;
+      color: white;
+    }
+
+    #timerText {
+      font-size: 4vw;
+      margin-top: 20px;
+      color: #8B0000;
+    }
+
+    .heart {
+      position: fixed;
+      animation: float 2s linear forwards;
+      z-index: 1000;
+    }
+
+    @keyframes float {
+      0% {opacity: 1;}
+      100% {transform: translateY(-100vh); opacity: 0;}
+    }
+
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 8vw;
+      }
+
+      button {
+        font-size: 5vw;
+        width: 45vw;
+      }
+
+      #timerText {
+        font-size: 5vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Will you marry this person?</h1>
+  <img id="photo" src="https://i.imgur.com/B6zRJHL.jpeg" alt="Your Photo">
+
+  <div id="box">
+    <button class="yes" onclick="yesClicked()">Yes</button>
+    <button class="no" id="noBtn" onmouseover="moveButton()">No</button>
+  </div>
+
+  <h3 id="timerText">You have 10 seconds to decide!</h3>
+
+  <!-- Background music -->
+  <audio autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Countdown Timer
+    let seconds = 10;
+    const timerText = document.getElementById("timerText");
+    const countdown = setInterval(() => {
+      seconds--;
+      timerText.innerText = `You have ${seconds} seconds to decide!`;
+      if (seconds === 0) {
+        clearInterval(countdown);
+        timerText.innerText = "Too late! Destiny chose YES for you 😏";
+      }
+    }, 1000);
+
+    // Moving 'No' button
+    function moveButton() {
+      const box = document.getElementById('box');
+      const x = Math.random() * (window.innerWidth - 200);
+      const y = Math.random() * (window.innerHeight - 200);
+      box.style.position = "absolute";
+      box.style.left = `${x}px`;
+      box.style.top = `${y}px`;
+    }
+
+    // 'Yes' clicked: popup + hearts + certificate
+    function yesClicked() {
+      alert("🎉 Congratulations! You both are married! 💍");
+
+      // Floating hearts
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement("div");
+        heart.innerText = "❤️";
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = Math.random() * 100 + "vh";
+        heart.style.fontSize = (Math.random() * 30 + 20) + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 2000);
+      }
+
+      // Certificate popup
+      const certificate = window.open("", "Marriage Certificate", "width=400,height=300");
+      certificate.document.write(`
+        <h1 style="color: pink; text-align: center;">💖 Marriage Certificate 💖</h1>
+        <p style="text-align: center;">This certifies that you and the person in the photo are now happily married.</p>
+        <p style="text-align: center;">💍 Witnessed by the Internet 💻</p>
+      `);
+    }
+  </script>
+</body>
+</html>
